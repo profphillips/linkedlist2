@@ -22,10 +22,14 @@ public class LinkedList {
 
     public void push(Friend data) {
         Link newLink = new Link(data);
-        newLink.next = first;
-        newLink.previous = null;
-        if (first != null) {
-            first.previous = newLink;
+        if (isEmpty()) {
+            last = newLink;
+        } else {
+            newLink.next = first;
+            newLink.previous = null;
+            if (first != null) {
+                first.previous = newLink;
+            }
         }
         first = newLink;
         length++;
@@ -35,7 +39,9 @@ public class LinkedList {
         if (length > 0) {
             Link temp = first;
             first = first.next;
-            if (first != null) {
+            if (first == null) {
+                last = null;
+            } else {
                 first.previous = null;
             }
             length--;
@@ -64,7 +70,7 @@ public class LinkedList {
     public Link find(String key) {
         Link current = first;
         if (!isEmpty()) {
-            while (current.data.getName() != key) {
+            while (!current.data.getName().equalsIgnoreCase(key)) {
                 if (current.next == null) {
                     return null;
                 } else {
@@ -96,17 +102,29 @@ public class LinkedList {
                 if (first != null) {
                     first.previous = null;
                 }
-                last = first;
             } else if (current == last) {
-                Link temp = null; // fix
-            } else if (current.next != null) {
-
-                current.next.previous = prev;
-                prev.next = current.next;
+                last = current.previous;
+                last.next = null;
+            } else {
+                System.out.println("Deleting : " + current);
+                System.out.println("n = " + length);
+                System.out.println("Last = " + last);
+                current.previous.next = current.next;
+                current.next.previous = current.previous;
             }
-            length--; // fix later
+            length--;
         }
         return current;
+    }
+
+    public Friend[] toArray() {
+        Friend[] friends = new Friend[length];
+        Link current = first;
+        for (int count = 0; current != null; count++) {
+            friends[count] = current.data;
+            current = current.next;
+        }
+        return friends;
     }
 
     @Override
@@ -149,10 +167,73 @@ public class LinkedList {
         System.out.println("Pop = " + link);
         System.out.println(list);
 
-//        if (list.delete(0) != null) {
-//            System.out.println("Item deleted\n" + list);
-//        } else {
-//            System.out.println("Null value on delete");
-//        }
+        list.push(new Friend("Tom", 5));
+        list.push(new Friend("Mary", 7));
+        list.push(new Friend("Steve", 6));
+        System.out.println(list);
+        System.out.println("Length is " + list.length);
+
+        Link gone = list.delete(1);
+        if (gone != null) {
+            System.out.println("Item deleted is " + gone);
+        } else {
+            System.out.println("Null value on delete");
+        }
+
+        gone = list.delete(1);
+        if (gone != null) {
+            System.out.println("Item deleted is " + gone);
+        } else {
+            System.out.println("Null value on delete");
+        }
+
+        gone = list.delete(0);
+        if (gone != null) {
+            System.out.println("Item deleted is " + gone);
+        } else {
+            System.out.println("Null value on delete");
+        }
+
+        gone = list.delete(2);
+        if (gone != null) {
+            System.out.println("Item deleted is " + gone);
+        } else {
+            System.out.println("Null value on delete");
+        }
+
+        list.push(new Friend("Tom", 5));
+        list.push(new Friend("Mary", 7));
+        list.push(new Friend("Steve", 6));
+        System.out.println(list);
+        System.out.println("Length is " + list.length);
+
+        gone = list.remove();
+        if (gone != null) {
+            System.out.println("Item deleted is " + gone);
+        } else {
+            System.out.println("Null value on delete");
+        }
+
+        gone = list.remove();
+        if (gone != null) {
+            System.out.println("Item deleted is " + gone);
+        } else {
+            System.out.println("Null value on delete");
+        }
+
+        gone = list.remove();
+        if (gone != null) {
+            System.out.println("Item deleted is " + gone);
+        } else {
+            System.out.println("Null value on delete");
+        }
+
+        gone = list.remove();
+        if (gone != null) {
+            System.out.println("Item deleted is " + gone);
+        } else {
+            System.out.println("Null value on delete");
+        }
+
     }
 }
