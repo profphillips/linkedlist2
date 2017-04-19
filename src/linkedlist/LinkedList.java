@@ -12,8 +12,8 @@ public class LinkedList {
 
     public LinkedList() {
         first = null;
-        length = 0;
         last = null;
+        length = 0;
     }
 
     public boolean isEmpty() {
@@ -23,6 +23,10 @@ public class LinkedList {
     public void push(Friend data) {
         Link newLink = new Link(data);
         newLink.next = first;
+        newLink.previous = null;
+        if (first != null) {
+            first.previous = newLink;
+        }
         first = newLink;
         length++;
     }
@@ -31,6 +35,9 @@ public class LinkedList {
         if (length > 0) {
             Link temp = first;
             first = first.next;
+            if (first != null) {
+                first.previous = null;
+            }
             length--;
             return temp;
         }
@@ -40,18 +47,29 @@ public class LinkedList {
     public Link peek() {
         return first;
     }
-    
+
     public Link remove() {
+        if (length > 0) {
+            Link temp = last;
+            last = last.previous;
+            if (last != null) {
+                last.next = null;
+            }
+            length--;
+            return temp;
+        }
         return null;
     }
 
     public Link find(String key) {
         Link current = first;
-        while (current.data.getName() != key) {
-            if (current.next == null) {
-                return null;
-            } else {
-                current = current.next;
+        if (!isEmpty()) {
+            while (current.data.getName() != key) {
+                if (current.next == null) {
+                    return null;
+                } else {
+                    current = current.next;
+                }
             }
         }
         return current;
@@ -59,7 +77,7 @@ public class LinkedList {
 
     public Link delete(int index) {
         Link current = first;
-        Link previous = first;
+        Link prev = first;
 
         if (!isEmpty()) {
             int count = 0;
@@ -67,7 +85,7 @@ public class LinkedList {
                 if (current.next == null) {
                     return null;
                 } else {
-                    previous = current;
+                    prev = current;
                     current = current.next;
                 }
                 count++;
@@ -75,8 +93,16 @@ public class LinkedList {
 
             if (current == first) {
                 first = first.next;
-            } else {
-                previous.next = current.next;
+                if (first != null) {
+                    first.previous = null;
+                }
+                last = first;
+            } else if (current == last) {
+                Link temp = null; // fix
+            } else if (current.next != null) {
+
+                current.next.previous = prev;
+                prev.next = current.next;
             }
             length--; // fix later
         }
@@ -113,12 +139,20 @@ public class LinkedList {
         Link link = list.pop();
         System.out.println("Pop = " + link);
         System.out.println(list);
+        link = list.pop();
+        System.out.println("Pop = " + link);
+        System.out.println(list);
+        link = list.pop();
+        System.out.println("Pop = " + link);
+        System.out.println(list);
+        link = list.pop();
+        System.out.println("Pop = " + link);
+        System.out.println(list);
 
 //        if (list.delete(0) != null) {
 //            System.out.println("Item deleted\n" + list);
 //        } else {
 //            System.out.println("Null value on delete");
 //        }
-
     }
 }
