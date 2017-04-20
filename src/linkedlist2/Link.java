@@ -1,4 +1,4 @@
-package linkedlist;
+package linkedlist2;
 
 /**
  * Represents a single link object.
