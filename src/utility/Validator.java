@@ -33,6 +33,8 @@ public class Validator {
      * would require one of the listed words to be entered. A regular expression
      * of "^\d\d-\d\d-\d\d\d\d$" would require a date in the form of
      * "11-01-2014" to be entered.
+     * 
+     * Modified to convert input to lower case.
      *
      * @param sc
      * @param prompt
@@ -45,7 +47,7 @@ public class Validator {
         while (isValid == false) {
             System.out.print(prompt);
             if (sc.hasNextLine()) {
-                s = sc.nextLine();
+                s = sc.nextLine().toLowerCase();
                 if (s.matches(regex)) {
                     isValid = true;
                 } else {
